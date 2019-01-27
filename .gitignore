@@ -1,6 +1,6 @@
 # dependencies
-dev/dep/python/*
-release/dep/python/*
+dev/dep/*
+release/dep*
 
 # the git-pip python bits
 dev/dep/python/get-pip.py
