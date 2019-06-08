@@ -1,6 +1,7 @@
 import os
 import subprocess
 import platform
+import pip
 
 def Check_dep():
 	'''
@@ -113,6 +114,7 @@ def Check_dep_path():
 		# successfully installed our python dependencies
 		if len(os.listdir(python_path)) == 0:
 			subprocess.Popen([win_py_dep])
+
 		else:
 			pass				
 	# on mac
@@ -126,7 +128,7 @@ def Check_dep_path():
 		# for now we'll assume that if there are files here we
 		# successfully installed our python dependencies
 		if len(os.listdir(python_path)) == 0:
-			subprocess.Popen([mac_py_dep])
+			subprocess.Popen([win_py_txt])
 		else:
 			pass
 
@@ -139,7 +141,7 @@ def win_dep(requirementsPath, targetPath):
 	win_txt = ''':: Update dependencies
 
 :: make sure pip is up to date
-python -m pip install --upgrade pip
+python -m pip install --user --upgrade pip
 
 :: install requirements
 pip install -r {reqs}/requirements.txt --target="{target}"'''
@@ -147,6 +149,7 @@ pip install -r {reqs}/requirements.txt --target="{target}"'''
 	formatted_win_txt = win_txt.format(reqs=requirementsPath, target=targetPath)
 	
 	return formatted_win_txt
+
 
 def mac_dep(requirementsPath, targetPath):
 	mac_txt = '''
@@ -168,7 +171,7 @@ python3 get-pip.py
 # Update dependencies
 
 # make sure pip is up to date
-python3 -m pip install --upgrade pip
+python3 -m pip install --user --upgrade pip
 
 # install requirements
 python3 -m pip install -r {reqs}/requirements.txt --target={target}'''
