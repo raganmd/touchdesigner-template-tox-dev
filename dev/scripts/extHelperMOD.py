@@ -58,7 +58,6 @@ def Check_dep_path():
 	scripts_reqs_path 	= '{proj}/dep/{name}'.format(proj=project.folder, name=parent().par.Name)
 	requirements 		= '{}/requirements.txt'.format(scripts_reqs_path)
 	reqs_dat 			= op('reqs')
-	phue_path 			= '{}/dep/python/phue.py'.format(project.folder)
 	win_py_dep 			= '{}/update-dep-python-windows.cmd'.format(scripts_reqs_path)
 	mac_py_dep 			= '{}/update-dep-python-mac.sh'.format(scripts_reqs_path)
 
@@ -113,6 +112,7 @@ def Check_dep_path():
 		# successfully installed our python dependencies
 		if len(os.listdir(python_path)) == 0:
 			subprocess.Popen([win_py_dep])
+
 		else:
 			pass				
 	# on mac
@@ -122,11 +122,18 @@ def Check_dep_path():
 		mac_file.write(mac_py_txt)
 		mac_file.close()
 
+		# change file permissions for the file
+		subprocess.call(['chmod', '755', mac_py_dep])
+
+		# change file to be executable
+		subprocess.call(['chmod', '+x', mac_py_dep])
+
 		# check to see if there is anything in the python dep dir
 		# for now we'll assume that if there are files here we
 		# successfully installed our python dependencies
 		if len(os.listdir(python_path)) == 0:
-			subprocess.Popen([mac_py_dep])
+			print("Running Install Script")
+			subprocess.Popen(["open", "-a", "Terminal.app", mac_py_dep])
 		else:
 			pass
 
@@ -139,7 +146,7 @@ def win_dep(requirementsPath, targetPath):
 	win_txt = ''':: Update dependencies
 
 :: make sure pip is up to date
-python -m pip install --upgrade pip
+python -m pip install --user --upgrade pip
 
 :: install requirements
 pip install -r {reqs}/requirements.txt --target="{target}"'''
@@ -147,6 +154,7 @@ pip install -r {reqs}/requirements.txt --target="{target}"'''
 	formatted_win_txt = win_txt.format(reqs=requirementsPath, target=targetPath)
 	
 	return formatted_win_txt
+
 
 def mac_dep(requirementsPath, targetPath):
 	mac_txt = '''
@@ -158,9 +166,6 @@ pythonDir=/python
 # change current direcotry to where the script is run from
 dirname "$(readlink -f "$0")"
 
-# permission to run the file
-sudo chmod 755 udpate-dep-python-mac.sh
-
 # fix up pip with python3
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
@@ -168,7 +173,7 @@ python3 get-pip.py
 # Update dependencies
 
 # make sure pip is up to date
-python3 -m pip install --upgrade pip
+python3 -m pip install --user --upgrade pip
 
 # install requirements
 python3 -m pip install -r {reqs}/requirements.txt --target={target}'''
