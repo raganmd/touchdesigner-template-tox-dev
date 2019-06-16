@@ -45,7 +45,7 @@ def Check_dep(debug=False):
 
 	pass
 
-def Check_dep_path():
+def Install_python_external():
 	'''
 		Check and install any external modules.
 		
