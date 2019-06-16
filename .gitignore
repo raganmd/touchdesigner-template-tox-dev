@@ -7,5 +7,8 @@ dev/dep/python/get-pip.py
 release/dep/python/get-pip.py
 get-pip.py
 
+# the external TD tools
+dev/td-modules/tools/releaseVersions/*
+
 # mac files
 *.DS_STORE
