@@ -6,6 +6,15 @@ import os
 release_dir = "releaseVersions"
 json_file_ext = "releaseFiles.json"
 
+# a function to check for and create our release_dir if necessary
+def check_for_dir():
+    if os.path.isdir(release_dir):
+        pass
+    else:
+        print("Creating releaseVersions directory")
+        os.mkdir(release_dir)
+    pass
+
 # a function to delete old versions
 def delete_old_files(del_dir):
     # loop through all files in directory and delete them
@@ -32,6 +41,10 @@ def download_files(json_file_with_externals):
 
         print("\ndownloading {save_url} \nsaving to {target_path} \n".format(target_path=target_path, save_url=target_url))
     pass
+
+# check for directory
+print("Checking for releaseVersions directory")
+check_for_dir()
 
 # delete old files
 print("Deleting Old Files")
