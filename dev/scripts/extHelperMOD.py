@@ -187,10 +187,10 @@ def win_dep(requirementsPath, targetPath):
 	win_txt = ''':: Update dependencies
 
 :: make sure pip is up to date
-python -m pip install --user --upgrade pip
+py -3.5 -m pip install --user --upgrade pip
 
 :: install requirements
-pip install -r "{reqs}/requirements.txt" --target="{target}"'''
+py -3.5 -m pip install -r "{reqs}/requirements.txt" --target="{target}"'''
 
 	formatted_win_txt = win_txt.format(reqs=requirementsPath, target=targetPath)
 	
